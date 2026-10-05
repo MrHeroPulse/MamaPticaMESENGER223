@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#17212b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MamaPtica">
+<title>MamaPticaMESENGER</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='52' cy='62' r='22' fill='%23E63946'/><circle cx='62' cy='40' r='18' fill='%23E63946'/><path d='M 54 22 Q 50 12 46 15 Q 48 22 52 28' fill='%23FFD93D'/><path d='M 60 20 Q 58 8 54 10 Q 56 18 58 26' fill='%23FFD93D'/><path d='M 66 22 Q 66 10 62 11 Q 62 18 64 27' fill='%23FFD93D'/><circle cx='68' cy='42' r='6' fill='%23FFF'/><circle cx='68' cy='40' r='2.8' fill='%231D3557'/><path d='M 76 32 Q 90 30 86 46 Q 82 44 78 42 Z' fill='%23FFD93D'/></svg>">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%2317212b'/><g transform='translate(45,45)'><circle cx='52' cy='62' r='22' fill='%23E63946'/><circle cx='62' cy='40' r='18' fill='%23E63946'/><path d='M 54 22 Q 50 12 46 15 Q 48 22 52 28' fill='%23FFD93D'/><path d='M 60 20 Q 58 8 54 10 Q 56 18 58 26' fill='%23FFD93D'/><path d='M 66 22 Q 66 10 62 11 Q 62 18 64 27' fill='%23FFD93D'/><circle cx='68' cy='42' r='6' fill='%23FFF'/><circle cx='68' cy='40' r='2.8' fill='%231D3557'/><path d='M 76 32 Q 90 30 86 46 Q 82 44 78 42 Z' fill='%23FFD93D'/></g></svg>">
+<style>
+:root{--bg:#17212b;--panel:#232e3c;--dark:#0e1621;--sec:#2b3b4d;--ac:#5eb5f7;--acd:#4aa3e0;--tx:#fff;--dm:#7f91a3;--sf:#a2b8cc;--own:#2b5278;--oth:#232e3c;--dg:#ff6b6b;--ok:#4caf50;--wn:#f0b333}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{height:100dvh;background:var(--bg);color:var(--tx);overscroll-behavior:none}
+button{font-family:inherit;cursor:pointer}
+#auth{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--panel),var(--bg));z-index:100;padding:16px;overflow-y:auto}
+.ab{background:var(--panel);padding:24px 20px;border-radius:16px;width:100%;max-width:340px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.ab h1{font-size:22px;margin-bottom:12px;text-align:center;color:var(--ac)}
+.bb{text-align:center;font-size:11px;color:var(--dm);margin-bottom:10px;min-height:16px}
+.bb.online{color:var(--ok)}.bb.offline{color:var(--wn)}
+.offbtn{display:none;width:100%;padding:10px;margin-bottom:10px;border:1px solid var(--wn);border-radius:8px;background:transparent;color:var(--wn);font-size:13px}
+.offbtn.show{display:block}
+.ab label{font-size:12px;color:var(--dm);display:block;margin-bottom:4px;margin-top:8px}
+.ab input{width:100%;padding:11px;border-radius:8px;border:1px solid var(--sec);background:var(--dark);color:var(--tx);font-size:15px}
+.ab input:focus{outline:none;border-color:var(--ac)}
+.ab button.prim{width:100%;padding:13px;border:none;border-radius:8px;background:var(--ac);color:#fff;font-size:16px;font-weight:600;margin-top:12px}
+.ab button.prim:active{background:var(--acd)}
+.err{color:var(--dg);font-size:12px;text-align:center;margin-bottom:6px;min-height:16px}
+.hint{font-size:11px;color:var(--dm);margin-top:4px;min-height:14px}
+.hint.err{color:var(--dg)}.hint.ok{color:var(--ok)}
+.sw{text-align:center;margin-top:12px;font-size:13px;color:var(--dm)}
+.sw span{color:var(--ac);cursor:pointer}
+#app{display:none;height:100dvh;grid-template-columns:300px 1fr}
+#app.show{display:grid}
+.sb{background:var(--bg);border-right:1px solid var(--dark);display:flex;flex-direction:column;min-height:0}
+.bbar{padding:10px;background:var(--dark);font-size:13px;font-weight:700;color:var(--dm);text-align:center;padding-top:max(10px,env(safe-area-inset-top))}
+.bbar span span{color:var(--ac)}
+.me{padding:10px 12px;background:var(--panel);display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--dark)}
+.mem{display:flex;align-items:center;gap:10px;flex:1;cursor:pointer;padding:2px;border-radius:8px;min-width:0}
+.mem:active{background:var(--sec)}
+.aw{position:relative;flex-shrink:0}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;overflow:hidden;background-size:cover;background-position:center}
+.od{position:absolute;bottom:-1px;right:-1px;width:11px;height:11px;border-radius:50%;background:var(--ok);border:2px solid var(--bg);display:none}
+.od.show{display:block}
+.mi{flex:1;overflow:hidden}
+.mi b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mi small{color:var(--dm);font-size:12px}
+.ib{background:transparent;border:none;font-size:16px;padding:7px;border-radius:6px;color:var(--tx);min-width:32px;min-height:32px}
+.ib:active{background:rgba(127,145,163,.2)}
+.ib.m{opacity:.35}
+.lo{background:transparent;border:none;color:var(--dg);font-size:12px;padding:8px;border-radius:6px}
+.sr{padding:10px;display:flex;gap:6px}
+.sr input{flex:1;padding:11px 14px;border-radius:20px;border:none;background:var(--panel);color:var(--tx);font-size:15px;min-width:0}
+.sr input:focus{outline:none;border:1px solid var(--ac)}
+.sr button{padding:0 14px;border:none;border-radius:20px;background:var(--sec);color:var(--tx);font-size:16px}
+.sr button:active{background:var(--ac)}
+.st{padding:0 12px 6px;font-size:11px;color:var(--dm)}
+.ac{padding:0 10px 10px}
+.ac button{width:100%;padding:11px;border-radius:8px;border:none;background:var(--sec);color:var(--tx);font-size:14px}
+.ac button:active{background:var(--ac)}
+.cl{flex:1;overflow-y:auto;min-height:0;-webkit-overflow-scrolling:touch}
+.ci{padding:14px;cursor:pointer;border-bottom:1px solid var(--dark);display:flex;gap:10px;align-items:center}
+.ci:active,.ci.active{background:var(--sec)}
+.ci.unread{background:rgba(94,181,247,.08)}
+.cm{flex:1;overflow:hidden}
+.cm b{font-size:15px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cm .un{color:var(--ac);font-size:12px;display:block}
+.cm small{color:var(--dm);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.ub{background:var(--ac);color:#fff;border-radius:10px;padding:3px 8px;font-size:11px;font-weight:700}
+.hb{padding:20px;color:var(--dm);font-size:13px;text-align:center;line-height:1.6}
+.ch{display:flex;flex-direction:column;background:var(--dark);min-height:0;position:relative}
+.chh{padding:12px 16px;background:var(--panel);border-bottom:1px solid var(--dark);display:flex;align-items:center;gap:10px;cursor:pointer;padding-top:max(12px,env(safe-area-inset-top))}
+.chh:active{background:var(--sec)}
+.chh b{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+.chh small{color:var(--dm);font-size:12px;display:block}
+.chh small.online{color:var(--ok)}
+.chh small.typing{color:var(--ac);font-style:italic}
+.bb2{display:none;background:transparent;border:none;color:var(--ac);font-size:26px;padding:4px 10px;min-width:40px;min-height:40px;align-items:center;justify-content:center}
+.pb{background:var(--panel);border-bottom:1px solid var(--dark);padding:8px 14px;display:none;align-items:center;gap:10px;cursor:pointer}
+.pb.show{display:flex}
+.pb .pi{color:var(--ac)}
+.pb .pin{flex:1;min-width:0}
+.pb .pin b{font-size:12px;color:var(--ac);display:block}
+.pb .pin small{font-size:13px;color:var(--sf);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pb .up{background:transparent;border:none;color:var(--dm);font-size:16px;padding:4px}
+.ms{flex:1;overflow-y:auto;padding:16px 12px;display:flex;flex-direction:column;gap:10px;min-height:0;-webkit-overflow-scrolling:touch}
+.mg{max-width:82%;display:flex;gap:8px;position:relative;transition:transform .15s ease;touch-action:pan-y}
+.mg.own{align-self:flex-end;flex-direction:row-reverse}
+.mg.other{align-self:flex-start}
+.mga{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;background-size:cover;background-position:center;overflow:hidden;cursor:pointer}
+.bub{padding:8px 12px;border-radius:12px;word-wrap:break-word;font-size:15px;line-height:1.4;min-width:60px;position:relative}
+.mg.own .bub{background:var(--own);border-bottom-right-radius:3px}
+.mg.other .bub{background:var(--oth);border-bottom-left-radius:3px}
+.ma{font-size:12px;font-weight:700;margin-bottom:3px}
+.mt{font-size:10px;color:var(--sf);text-align:right;margin-top:3px}
+.mt .ed{font-style:italic;opacity:.7}
+.rx{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
+.rp{background:rgba(0,0,0,.2);border-left:3px solid var(--ac);padding:4px 8px;border-radius:6px;margin-bottom:6px;font-size:12px;cursor:pointer}
+.rp .rpa{color:var(--ac);font-weight:700}
+.rp .rpt{color:var(--sf);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.mg.del .bub{opacity:.6;font-style:italic}
+.mmd{display:block;max-width:100%;max-height:280px;border-radius:8px;margin-top:4px;cursor:pointer;background:var(--dark);min-width:100px;min-height:60px}
+.mmc{font-size:12px;color:var(--sf);margin-top:4px}
+.mf{display:flex;align-items:center;gap:10px;padding:8px 10px;background:rgba(0,0,0,.2);border-radius:8px;margin-top:4px;text-decoration:none;color:inherit}
+.mf .fi{font-size:26px}
+.mf .fn{flex:1;min-width:0}
+.mf .fn b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mf .fn small{color:var(--dm);font-size:11px}
+.mv{display:flex;align-items:center;gap:8px;margin-top:4px;min-width:180px}
+.mv .vp{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);border:none;color:inherit;font-size:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.mv .vp.playing{background:var(--ac);color:#fff}
+.mv .vw{flex:1;height:24px;display:flex;align-items:center;gap:2px}
+.mv .vw span{display:block;width:2px;background:currentColor;opacity:.5;border-radius:1px}
+.mv .vd{font-size:11px;opacity:.7}
+.rc{background:rgba(127,145,163,.2);border-radius:10px;padding:3px 8px;font-size:12px;display:inline-flex;gap:3px;align-items:center;border:1px solid transparent;user-select:none}
+.rc.mine{border-color:var(--ac);background:rgba(94,181,247,.2)}
+.ar{position:absolute;top:0;background:var(--sec);border:none;border-radius:50%;width:28px;height:28px;color:var(--tx);font-size:14px;padding:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.mg.own .ar{left:-36px}.mg.other .ar{right:-36px}
+.mg:hover .ar{opacity:1}
+@media(hover:none){.ar{opacity:1}}
+.ra{position:absolute;top:50%;transform:translateY(-50%);font-size:22px;opacity:0;pointer-events:none;transition:opacity .15s}
+.mg.own .ra{left:-30px}.mg.other .ra{right:-30px}
+.mg.sw .ra{opacity:1;color:var(--ac)}
+.emp{color:var(--dm);text-align:center;margin:auto;font-size:14px;padding:20px}
+.rb,.eb{background:var(--panel);border-top:1px solid var(--dark);padding:8px 14px;display:none;align-items:center;gap:10px}
+.rb.show,.eb.show{display:flex}
+.rb .rbi{flex:1;min-width:0;border-left:3px solid var(--ac);padding-left:8px}
+.eb .ebi{flex:1;min-width:0;border-left:3px solid var(--wn);padding-left:8px}
+.rbi b,.ebi b{font-size:12px;display:block}
+.rbi b{color:var(--ac)}.ebi b{color:var(--wn)}
+.rbi small,.ebi small{font-size:12px;color:var(--dm);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rbc,.ebc{background:transparent;border:none;color:var(--dm);font-size:20px;padding:4px}
+.ia{padding:10px 12px;background:var(--panel);display:flex;gap:8px;align-items:center;position:relative;padding-bottom:max(10px,env(safe-area-inset-bottom))}
+.ia input[type=text]{flex:1;padding:11px 16px;border-radius:20px;border:none;background:var(--dark);color:var(--tx);font-size:16px;min-width:0}
+.ia input[type=text]:focus{outline:none}
+.cb{width:44px;height:44px;border-radius:50%;border:none;background:var(--sec);color:var(--tx);font-size:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.cb:active{background:var(--ac)}
+.cb.snd{background:var(--ac);color:#fff;font-size:18px}
+.cb.rec{background:var(--dg);color:#fff;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.rt{position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:var(--dg);color:#fff;padding:4px 12px;border-radius:12px;font-size:12px;display:none}
+.rt.show{display:block}
+.am{position:absolute;bottom:66px;left:12px;background:var(--panel);border-radius:12px;padding:6px;box-shadow:0 8px 30px rgba(0,0,0,.6);z-index:100;display:none;min-width:230px}
+.am.show{display:block}
+.am button{display:flex;gap:10px;align-items:center;width:100%;padding:12px 16px;border:none;background:transparent;color:var(--tx);font-size:15px;border-radius:8px;text-align:left;white-space:nowrap}
+.am button:active{background:var(--sec)}
+.md{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:50;padding:12px;overflow-y:auto}
+.md.show{display:flex}
+.mb{background:var(--panel);padding:20px;border-radius:14px;width:100%;max-width:440px;max-height:calc(100vh - 24px);overflow-y:auto}
+.mb h3{margin-bottom:14px;font-size:16px}
+.mb input[type=text],.mb input[type=password],.mb textarea{width:100%;padding:11px;border-radius:8px;border:1px solid var(--sec);background:var(--dark);color:var(--tx);margin-bottom:6px;font-size:16px;font-family:inherit;resize:vertical}
+.mb textarea{min-height:60px;max-height:120px;margin-bottom:10px}
+.mb label{display:block;font-size:12px;color:var(--dm);margin-bottom:5px}
+.up{max-height:220px;overflow-y:auto;margin-bottom:12px}
+.up label{display:flex;gap:8px;align-items:center;padding:8px 6px;cursor:pointer;border-radius:6px;font-size:15px;color:var(--tx);margin:0}
+.mac{display:flex;gap:8px;margin-top:6px}
+.mac button{flex:1;padding:12px;border-radius:8px;border:none;font-size:15px}
+.bp{background:var(--ac);color:#fff}
+.bc{background:var(--sec);color:var(--tx)}
+.srw{display:flex;align-items:center;justify-content:space-between;padding:12px 4px;border-bottom:1px solid var(--sec);font-size:15px}
+.srw:last-of-type{border-bottom:none}
+.srw .si{flex:1}
+.srw .si small{display:block;color:var(--dm);font-size:12px;margin-top:2px;word-break:break-all}
+.srw .sb2{padding:8px 14px;border-radius:8px;border:none;background:var(--sec);color:var(--tx);font-size:13px;flex-shrink:0;margin-left:10px}
+.srw .sb2:active{background:var(--ac)}
+.sg{position:relative;width:46px;height:26px;flex-shrink:0}
+.sg input{opacity:0;width:0;height:0}
+.sg label{position:absolute;inset:0;background:var(--sec);border-radius:13px;cursor:pointer;transition:.2s}
+.sg label::before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:var(--tx);border-radius:50%;transition:.2s}
+.sg input:checked+label{background:var(--ac)}
+.sg input:checked+label::before{transform:translateX(20px);background:#fff}
+.pbn{width:100%;height:110px;border-radius:10px;overflow:hidden;background:linear-gradient(135deg,var(--own),var(--ac));margin-bottom:-40px;background-size:cover;background-position:center}
+.paw{display:flex;justify-content:center;position:relative}
+.pav{width:76px;height:76px;border-radius:50%;border:4px solid var(--panel);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:28px;color:#fff;background-size:cover;background-position:center;overflow:hidden;position:relative;z-index:2}
+.pnm{text-align:center;font-size:19px;font-weight:700;margin:10px 0 2px}
+.pus{text-align:center;font-size:14px;color:var(--ac);margin-bottom:6px;font-weight:500}
+.pst{text-align:center;font-size:12px;margin-bottom:10px;color:var(--dm)}
+.pst.online{color:var(--ok)}
+.pbi{text-align:center;color:var(--sf);font-size:13px;margin-bottom:20px;white-space:pre-wrap;word-wrap:break-word}
+.ebn{width:100%;height:100px;border-radius:10px;background:linear-gradient(135deg,var(--own),var(--ac));margin-bottom:-35px;background-size:cover;background-position:center;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.8);font-size:12px}
+.eaw{display:flex;justify-content:center;margin-bottom:12px}
+.eav{width:76px;height:76px;border-radius:50%;border:4px solid var(--panel);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:28px;color:#fff;background-size:cover;background-position:center;overflow:hidden;cursor:pointer;position:relative;z-index:2}
+.cb2{background:transparent;border:none;color:var(--dg);font-size:11px;padding:6px;margin-top:4px;width:100%;text-align:center}
+.cp{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.cd{width:32px;height:32px;border-radius:50%;cursor:pointer;border:2px solid transparent}
+.cd.sel{border-color:var(--tx)}
+.ep{position:fixed;background:var(--sec);border-radius:24px;padding:8px 12px;display:flex;gap:4px;box-shadow:0 8px 30px rgba(0,0,0,.6);z-index:500}
+.ep button{background:none;border:none;font-size:26px;padding:4px;border-radius:50%}
+.cx{position:fixed;background:var(--panel);border-radius:12px;padding:6px;box-shadow:0 8px 30px rgba(0,0,0,.6);z-index:700;min-width:200px;display:none}
+.cx.show{display:block}
+.cx button{display:flex;gap:10px;align-items:center;width:100%;padding:10px 14px;border:none;background:transparent;color:var(--tx);font-size:14px;border-radius:8px;text-align:left}
+.cx button:active{background:var(--sec)}
+.cx button.dg{color:var(--dg)}
+#iv{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;z-index:600}
+#iv.show{display:flex}
+#iv img{max-width:100vw;max-height:100vh;object-fit:contain}
+#iv .cv{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.2);color:#fff;font-size:22px}
+.ts{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--dg);color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;display:none;z-index:300;max-width:90vw;text-align:center}
+.ts.show{display:block}
+.ts.ok{background:var(--ok)}
+.sy{position:fixed;top:10px;left:50%;transform:translateX(-50%);background:var(--ac);color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;display:none;z-index:400}
+.sy.show{display:block}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-thumb{background:var(--sec);border-radius:4px}
+@media(max-width:768px){
+#app{grid-template-columns:1fr}
+.sb{border-right:none;width:100%}
+.ch{display:none;width:100%}
+#app.co .sb{display:none}
+#app.co .ch{display:flex}
+.bb2{display:flex}
+.chh{padding:10px 8px;gap:6px}
+.chh b{font-size:15px;max-width:180px}
+.mg{max-width:85%}
+.mg .bub{font-size:14px}
+.am{bottom:62px}
+.md{align-items:flex-end;padding:0}
+.mb{border-radius:16px 16px 0 0;max-width:100%;width:100%;max-height:92vh;padding:20px 16px;padding-bottom:max(20px,env(safe-area-inset-bottom))}
+}
+</style>
+</head>
+<body>
+
+<div id="auth"><div class="ab">
+  <h1 id="at">Регистрация</h1>
+  <div class="bb" id="cb">🔄 Подключение...</div>
+  <button class="offbtn" id="ob" type="button">⚠ Продолжить без сети</button>
+  <div class="err" id="ae"></div>
+  <div id="rf">
+    <label>Ник</label><input type="text" id="rn" placeholder="Иван Петров" maxlength="30">
+    <label>@username</label><input type="text" id="ru" placeholder="ivan_petrov" maxlength="20" autocapitalize="off" autocomplete="off">
+    <div class="hint" id="rh">4-20 символов, латиница/цифры/_</div>
+    <label>Пароль</label><input type="password" id="rp" placeholder="Пароль">
+  </div>
+  <div id="lf" style="display:none;">
+    <label>@username</label><input type="text" id="li" placeholder="@username" autocapitalize="off">
+    <label>Пароль</label><input type="password" id="lp" placeholder="Пароль">
+  </div>
+  <button id="ab" class="prim" type="button">Зарегистрироваться</button>
+  <div class="sw"><span id="sm">Уже есть аккаунт? Войти</span></div>
+</div></div>
+
+<div id="app">
+  <div class="sb">
+    <div class="bbar"><span>MamaPtica<span>MESENGER</span></span></div>
+    <div class="me">
+      <div class="mem" id="mb">
+        <div class="aw"><div class="av" id="ma" style="width:38px;height:38px;">?</div></div>
+        <div class="mi"><b id="mn"></b><small id="mu"></small></div>
+      </div>
+      <button class="ib" id="stg">🔔</button>
+      <button class="ib" id="sg">⚙️</button>
+      <button class="lo" id="lob" type="button">Выйти</button>
+    </div>
+    <div class="sr"><input type="text" id="si" placeholder="🔍 @username..." autocapitalize="off" autocomplete="off"><button id="rf2" title="Обновить">🔄</button></div>
+    <div class="st" id="stline">💡 Поиск только по @username</div>
+    <div class="ac"><button id="ng" type="button">👥 Создать группу</button></div>
+    <div class="cl" id="clist"></div>
+  </div>
+  <div class="ch">
+    <div class="chh" id="chh"><div style="color:var(--dm);">Найди друга по @username</div></div>
+    <div class="pb" id="pb"><span class="pi">📌</span><div class="pin" id="pbi"><b>Закреплено</b><small></small></div><button class="up" id="ub">✕</button></div>
+    <div class="ms" id="ms"><div class="emp">Найди друга через поиск 🔍</div></div>
+    <div class="rb" id="rb"><div class="rbi"><b id="rba"></b><small id="rbt"></small></div><button class="rbc" id="rbc" type="button">✕</button></div>
+    <div class="eb" id="eb"><div class="ebi"><b>✏️ Редактирование</b><small id="ebt"></small></div><button class="ebc" id="ebc" type="button">✕</button></div>
+    <div class="ia" id="ia" style="display:none;">
+      <div class="rt" id="rt">🔴 0:00</div>
+      <button class="cb" id="atb" type="button">📎</button>
+      <button class="cb" id="mib" type="button">🎤</button>
+      <input type="text" id="mi" placeholder="Сообщение..." maxlength="1000">
+      <button class="cb snd" id="sb2" type="button">➤</button>
+      <div class="am" id="am">
+        <button type="button" id="pi2">🖼 Картинка</button>
+        <button type="button" id="pv">🎬 Видео</button>
+        <button type="button" id="pf">📎 Файл</button>
+        <button type="button" id="sh">🔄 Синхронизировать</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cx" id="cx"></div>
+
+<div class="md" id="sm2"><div class="mb">
+  <h3>⚙️ Настройки</h3>
+  <div class="srw"><div class="si"><b>🔔 Звук</b></div><div class="sg"><input type="checkbox" id="ss"><label for="ss"></label></div></div>
+  <div class="srw"><div class="si"><b>📢 Уведомления</b></div><div class="sg"><input type="checkbox" id="sn"><label for="sn"></label></div></div>
+  <div class="srw"><div class="si"><b>⌨️ «Печатает...»</b></div><div class="sg"><input type="checkbox" id="stp"><label for="stp"></label></div></div>
+  <div class="srw"><div class="si"><b>🔑 Пароль</b><small>Сменить пароль</small></div><button class="sb2" id="ocp" type="button">Сменить</button></div>
+  <div class="srw"><div class="si"><b>📊 Диагностика</b><small id="diag">—</small></div></div>
+  <div class="mac"><button class="bp" id="cs" type="button">Готово</button></div>
+</div></div>
+
+<div class="md" id="cpm"><div class="mb">
+  <h3>🔑 Смена пароля</h3>
+  <label>Текущий пароль</label><input type="password" id="co">
+  <label style="margin-top:8px;">Новый пароль</label><input type="password" id="cn">
+  <label style="margin-top:8px;">Повтори новый</label><input type="password" id="cn2">
+  <div class="hint" id="ch2" style="min-height:16px;"></div>
+  <div class="mac"><button class="bc" id="cc" type="button">Отмена</button><button class="bp" id="csa" type="button">Сохранить</button></div>
+</div></div>
+
+<div class="md" id="epm"><div class="mb">
+  <h3>Мой профиль</h3>
+  <div class="ebn" id="ebn"></div>
+  <div class="eaw"><div class="eav" id="eav"></div></div>
+  <button class="cb2" id="clb" type="button" style="display:none;">Удалить баннер</button>
+  <button class="cb2" id="cla" type="button" style="display:none;">Удалить аватарку</button>
+  <div style="margin-top:16px;"><label>Ник</label><input type="text" id="en" maxlength="30"></div>
+  <div style="margin-top:6px;"><label>@username</label><input type="text" id="eu" maxlength="20" autocapitalize="off"><div class="hint" id="eh"></div></div>
+  <div style="margin-top:10px;"><label>О себе</label><textarea id="eb2" maxlength="200"></textarea></div>
+  <div style="margin-top:10px;"><label>Цвет аватарки</label><div class="cp" id="cp"></div></div>
+  <div class="mac"><button class="bc" id="cep" type="button">Отмена</button><button class="bp" id="sp" type="button">Сохранить</button></div>
+</div></div>
+
+<div class="md" id="vpm"><div class="mb">
+  <div class="pbn" id="vb"></div>
+  <div class="paw"><div class="pav" id="va"></div></div>
+  <div class="pnm" id="vn"></div>
+  <div class="pus" id="vu"></div>
+  <div class="pst" id="vs"></div>
+  <div class="pbi" id="vb2"></div>
+  <div class="mac"><button class="bp" id="cvp" type="button">Закрыть</button></div>
+</div></div>
+
+<div class="md" id="gm"><div class="mb">
+  <h3>Создать группу</h3>
+  <input type="text" id="gn" placeholder="Название" maxlength="30">
+  <div style="font-size:12px;color:var(--dm);margin-bottom:6px;">Участники:</div>
+  <div class="up" id="gp"></div>
+  <div class="mac"><button class="bc" id="cg" type="button">Отмена</button><button class="bp" id="crg" type="button">Создать</button></div>
+</div></div>
+
+<div id="iv"><button class="cv" type="button" id="cvv">✕</button><img id="vi" src="" alt=""></div>
+<input type="file" id="afi" accept="image/*" style="display:none;">
+<input type="file" id="bfi" accept="image/*" style="display:none;">
+<input type="file" id="mfi" accept="image/*,video/*" style="display:none;">
+<input type="file" id="ffi" style="display:none;">
+<div class="sy" id="sy">🔄 Синхронизация...</div>
+<div class="ts" id="tst">Нет соединения</div>
+
+<script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js"></script>
+<script>
+(function(){
+'use strict';
+var KEY='k7x2p9w4n8q3m5v1';
+try{var p=new URLSearchParams(location.search).get('key');if(p&&/^[A-Za-z0-9_-]{6,40}$/.test(p)){KEY=p;localStorage.setItem('nk',p);}else{var s=localStorage.getItem('nk');if(s)KEY=s;}}catch(e){}
+var APP='mamaptica_'+KEY;
+console.log('[MamaPtica] APP_ID =',APP);
+var BROKERS=['wss://broker.hivemq.com:8884/mqtt','wss://broker.emqx.io:8084/mqtt','wss://test.mosquitto.org:8081/mqtt'];
+var ONLINE_T=45000,HB_T=12000,TYPING_T=4000,SNAP_L=60,SNAP_M=25000;
+var MAX_IMG=400*1024,MAX_VID=850*1024,MAX_FILE=850*1024,MAX_VOICE=700*1024,MAX_STORE=3.5*1024*1024,MAX_HIST=300;
+var COLORS=['#5eb5f7','#4caf50','#ff9800','#e91e63','#9c27b0','#00bcd4','#ff5722','#795548','#607d8b','#3f51b5'];
+var RXS=['❤️','👍','😂','😮','😢','🔥'];
+var isM=function(){return matchMedia('(max-width:768px)').matches;};
+var isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+
+var client=null,me=null,active=null,reg=true,sq='',conn=false,subbed={},typing={},hbT=null,unread={},reply=null,editId=null;
+var mr=null,chunks=[],recStart=0,recInt=null,mqttOk=false,offlineMode=false;
+var repubT=null;
+var settings={sound:true,notif:false,typing:true};
+var store={version:6,users:{},chats:{},messages:{},presence:{}};
+
+function $(id){return document.getElementById(id);}
+function k(s){return 'msngr_'+APP+'_'+s;}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function cf(s){var h=0;for(var i=0;i<String(s).length;i++)h=(h*31+String(s).charCodeAt(i))%360;return 'hsl('+h+',55%,50%)';}
+function su(s){if(!s||typeof s!=='string'||s.length>2*1024*1024)return '';return /^data:(image|video|audio)\/[a-z0-9.+-]+;base64,[A-Za-z0-9+/=]+$/i.test(s)?s:'';}
+function sc(s){if(!s||typeof s!=='string')return null;if(/^#[0-9a-fA-F]{3,8}$/.test(s))return s;if(/^hsl\(\s*\d+\s*,\s*\d+%\s*,\s*\d+%\s*\)$/.test(s))return s;return null;}
+function fl(s){var c=String(s==null?'?':s).charAt(0)||'?';return esc(c.toUpperCase());}
+function tn(){var d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+function uid(p){return p+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
+function gu(u){return u?store.users[u]:null;}
+function gn(u){var x=gu(u);return x?x.nick:'?';}
+function gus(u){var x=gu(u);return x?(x.username||''):'';}
+function fs(b){if(b<1024)return b+' Б';if(b<1024*1024)return (b/1024).toFixed(1)+' КБ';return (b/1024/1024).toFixed(1)+' МБ';}
+function fd(s){var m=Math.floor(s/60),ss=Math.floor(s%60);return m+':'+String(ss).padStart(2,'0');}
+function vu(v){return /^[A-Za-z][A-Za-z0-9_]{3,19}$/.test(v);}
+function ut(v,ex){var l=v.toLowerCase();return Object.values(store.users).some(function(u){return u.username&&u.username.toLowerCase()===l&&u.uid!==ex;});}
+function on(u){var p=store.presence[u];if(!p||!p.online)return false;return Date.now()-(p.lastSeen||0)<ONLINE_T;}
+function fls(u){var p=store.presence[u];if(!p||!p.lastSeen)return 'был(а) давно';if(on(u))return 'онлайн';var d=Date.now()-p.lastSeen;if(d<60000)return 'был(а) только что';if(d<3600000)return 'был(а) '+Math.floor(d/60000)+' мин назад';return 'был(а) давно';}
+function pub(u){if(!u)return null;var c={};for(var kk in u)if(kk!=='password'&&kk!=='ph')c[kk]=u[kk];return c;}
+function avh(u,size,dot){
+  size=size||38;var user=gu(u);
+  var ws='<div class="aw" style="width:'+size+'px;height:'+size+'px;">';
+  var we=dot?'<span class="od '+(on(u)?'show':'')+'"></span></div>':'</div>';
+  var av=user?su(user.avatar):'';
+  var inner;
+  if(av) inner='<div class="av" style="width:'+size+'px;height:'+size+'px;background-image:url(\''+av+'\');background-size:cover;background-position:center;"></div>';
+  else {var c=(user?sc(user.color):null)||cf(user?user.nick:u);inner='<div class="av" style="width:'+size+'px;height:'+size+'px;background:'+c+';">'+fl(user?user.nick:'?')+'</div>';}
+  return ws+inner+we;
+}
+function mpt(m){
+  if(!m)return '';if(m.deleted)return 'Сообщение удалено';
+  if(m.media){if(m.media.type==='image')return '📷 Фото';if(m.media.type==='video')return '🎬 Видео';if(m.media.type==='voice')return '🎤 Голосовое';if(m.media.type==='file')return '📎 '+(m.media.name||'Файл');}
+  return m.text||'';
+}
+function toast(t,ok){var el=$('tst');if(!el)return;el.textContent=t;el.classList.add('show');el.classList.toggle('ok',!!ok);setTimeout(function(){el.classList.remove('show');},2400);}
+
+function parsePC(cid){
+  if(!cid||cid.indexOf('p_')!==0)return null;
+  var rest=cid.slice(2),sep=rest.indexOf('__');
+  if(sep<0)return null;
+  var a=rest.slice(0,sep),b=rest.slice(sep+2);
+  if(!a||!b)return null;
+  return [a,b];
+}
+function ensureChat(cid,msgTs){
+  if(!me)return false;
+  if(store.chats[cid])return true;
+  var p=parsePC(cid);
+  if(!p)return false;
+  if(p.indexOf(me)<0)return false;
+  var other=p[0]===me?p[1]:p[0];
+  var chat={id:cid,type:'user',members:[me,other],lastTime:msgTs||Date.now()};
+  store.chats[cid]=chat;
+  saveS();
+  console.log('[MamaPtica] ensureChat создан',cid,'с',other);
+  try{renderCL();}catch(e){}
+  return true;
+}
+
+async function hashP(p){
+  var s='msngr_salt_'+KEY+'|'+p;
+  try{if(crypto&&crypto.subtle){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return 'sh_'+Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');}}catch(e){}
+  var h1=0x811c9dc5>>>0,h2=5381>>>0;
+  for(var i=0;i<s.length;i++){var c=s.charCodeAt(i);h1=((h1^c)*16777619)>>>0;h2=((h2*33)^c)>>>0;}
+  return 'fb_'+h1.toString(16)+'_'+h2.toString(16);
+}
+async function vp(u,p){if(!u)return false;if(u.ph)return (await hashP(p))===u.ph;if(u.password)return u.password===p;return false;}
+
+function saveS(){
+  try{
+    Object.keys(store.messages).forEach(function(cid){var a=store.messages[cid];if(a.length>MAX_HIST)store.messages[cid]=a.slice(-MAX_HIST);});
+    var s=JSON.stringify(store),n=0;
+    while(s.length>MAX_STORE&&n<30){n++;var om=null;Object.keys(store.messages).forEach(function(cid){store.messages[cid].forEach(function(m){if(m.media&&m.media.data){if(!om||m.ts<om.ts)om=m;}});});if(!om)break;om.media={type:om.media.type,expired:true};s=JSON.stringify(store);}
+    localStorage.setItem(k('store'),s);
+  }catch(e){try{localStorage.setItem(k('store'),JSON.stringify(store));}catch(_){}}
+}
+function loadS(){
+  try{var r=localStorage.getItem(k('store'));if(!r)return;var p=JSON.parse(r);if(p.version!==5&&p.version!==6)return;store.users=p.users||{};store.chats=p.chats||{};store.messages=p.messages||{};store.presence=p.presence||{};}catch(e){}
+}
+function loadU(){try{unread=JSON.parse(localStorage.getItem(k('unread'))||'{}');}catch(e){unread={};}}
+function saveU(){try{localStorage.setItem(k('unread'),JSON.stringify(unread));}catch(e){}}
+function loadSet(){try{var s=localStorage.getItem(k('settings'));if(s)Object.assign(settings,JSON.parse(s));}catch(e){}}
+function saveSet(){try{localStorage.setItem(k('settings'),JSON.stringify(settings));}catch(e){}}
+function updDiag(){
+  var d=$('diag');
+  if(d)d.textContent='Пользователей: '+Object.keys(store.users).length+' | Чатов: '+Object.keys(store.chats).length+' | MQTT: '+(mqttOk?'✓':'✕');
+}
+
+function setBB(cls,txt){var el=$('cb');if(!el)return;el.textContent=txt;el.className='bb '+(cls||'');}
+function showOff(){var b=$('ob');if(b)b.classList.add('show');}
+
+function mqttStart(){
+  if(typeof mqtt==='undefined'){setBB('offline','⚠ MQTT не загрузился');showOff();return;}
+  var idx=0;
+  function attempt(){
+    if(idx>=BROKERS.length){setBB('offline','⚠ Нет сервера');showOff();mqttOk=false;return;}
+    setBB('','🔄 Подключение '+(idx+1)+'/'+BROKERS.length+'...');
+    var url=BROKERS[idx],fin=false,c;
+    try{c=mqtt.connect(url,{clientId:'m_'+Math.random().toString(16).slice(2,12),clean:true,reconnectPeriod:0,connectTimeout:5000,keepalive:30,protocolVersion:4});}
+    catch(e){idx++;attempt();return;}
+    var tm=setTimeout(function(){if(fin)return;fin=true;try{c.end(true);}catch(e){}idx++;attempt();},6000);
+    c.on('connect',function(){
+      if(fin)return;fin=true;clearTimeout(tm);
+      client=c;conn=true;mqttOk=true;offlineMode=false;
+      console.log('[MamaPtica] MQTT connected:',url);
+      setBB('online','✓ Онлайн');
+      var ob=$('ob');if(ob)ob.classList.remove('show');
+      c.on('message',handleMsg);
+      c.on('close',function(){
+        conn=false;mqttOk=false;setBB('offline','⚠ Офлайн');showOff();
+        setTimeout(function(){if(!conn){subbed={};attempt();}},5000);
+      });
+      c.on('error',function(e){console.warn('MQTT',e);});
+      subAll();
+      /* Повторная подписка через 500мс — принудительная пересылка retained */
+      setTimeout(function(){resub();},500);
+      if(me){republish();pubPresence();startHB();setTimeout(pubAllSnaps,300);}
+      startRepublish();
+    });
+    c.on('error',function(){if(fin)return;fin=true;clearTimeout(tm);try{c.end(true);}catch(e){}idx++;attempt();});
+  }
+  attempt();
+  setTimeout(function(){if(!conn)showOff();},9000);
+}
+function subAll(){
+  if(!client)return;
+  try{
+    client.subscribe('msgr/'+APP+'/users/+');
+    client.subscribe('msgr/'+APP+'/chats/+');
+    client.subscribe('msgr/'+APP+'/presence/+');
+    client.subscribe('msgr/'+APP+'/chat/+/msg/+');
+    client.subscribe('msgr/'+APP+'/chat/+/snapshot');
+    client.subscribe('msgr/'+APP+'/typing/+');
+    client.subscribe('msgr/'+APP+'/reactions/+/+');
+    console.log('[MamaPtica] Subscribed to all topics');
+  }catch(e){console.warn(e);}
+}
+function resub(){
+  if(!client||!conn)return;
+  console.log('[MamaPtica] Re-subscribe (refresh retained)');
+  try{
+    client.unsubscribe('msgr/'+APP+'/users/+',function(){client.subscribe('msgr/'+APP+'/users/+');});
+    client.unsubscribe('msgr/'+APP+'/presence/+',function(){client.subscribe('msgr/'+APP+'/presence/+');});
+    client.unsubscribe('msgr/'+APP+'/chats/+',function(){client.subscribe('msgr/'+APP+'/chats/+');});
+  }catch(e){}
+}
+function forceRefresh(){
+  if(!client||!conn){toast('Нет соединения');return;}
+  resub();
+  republish();
+  toast('🔄 Обновление...',true);
+}
+function republish(){
+  if(!me||!client||!conn)return;
+  var u=store.users[me];if(!u)return;
+  try{
+    client.publish('msgr/'+APP+'/users/'+me,JSON.stringify(pub(u)),{retain:true});
+    if(u.username)client.publish('msgr/'+APP+'/usernames/'+u.username.toLowerCase(),JSON.stringify({uid:me,username:u.username}),{retain:true});
+  }catch(e){}
+  Object.keys(store.chats).forEach(function(cid){var c=store.chats[cid];if(c&&c.members&&c.members.indexOf(me)>=0){try{client.publish('msgr/'+APP+'/chats/'+cid,JSON.stringify(c),{retain:true});}catch(e){}}});
+}
+function startRepublish(){
+  clearInterval(repubT);
+  repubT=setInterval(function(){if(conn&&me){republish();updDiag();}},30000);
+}
+function pubSnap(cid){
+  if(!conn||!client)return;
+  var c=store.chats[cid];if(!c)return;
+  var ms=(store.messages[cid]||[]).slice(-SNAP_L).map(function(m){var cp=Object.assign({},m);if(cp.media&&cp.media.data&&cp.media.data.length>SNAP_M)cp.media={type:cp.media.type,mime:cp.media.mime,expired:true};return cp;});
+  try{client.publish('msgr/'+APP+'/chat/'+cid+'/snapshot',JSON.stringify({chat:c,messages:ms,ts:Date.now()}),{retain:true});}catch(e){}
+}
+function pubAllSnaps(){
+  if(!conn||!me)return;
+  var my=Object.keys(store.chats).filter(function(cid){var c=store.chats[cid];return c&&c.members&&c.members.indexOf(me)>=0;});
+  if(!my.length)return;
+  var i=0;
+  function tick(){if(i>=my.length){var sb=$('sy');if(sb)sb.classList.remove('show');return;}pubSnap(my[i++]);setTimeout(tick,300);}
+  var sb=$('sy');if(sb)sb.classList.add('show');
+  tick();
+}
+function pubPresence(){if(!me||!conn||!client)return;try{client.publish('msgr/'+APP+'/presence/'+me,JSON.stringify({uid:me,online:true,lastSeen:Date.now()}),{retain:true});}catch(e){}}
+function startHB(){clearInterval(hbT);hbT=setInterval(pubPresence,HB_T);}
+
+function handleMsg(topic,payload){
+  var data;try{data=JSON.parse(payload.toString());}catch(e){return;}
+  var m;
+  m=topic.match(new RegExp('^msgr/'+APP+'/users/(.+)$'));
+  if(m){
+    var u=m[1],prev=store.users[u];
+    if(!prev||(data.updated||0)>=(prev.updated||0)){
+      var merged=Object.assign({},data);
+      if(prev&&prev.ph&&!data.ph)merged.ph=prev.ph;
+      store.users[u]=merged;saveS();
+      console.log('[MamaPtica] user updated:',data.username||u);
+      try{renderCL();if(sq)renderSR($('clist'));renderMs();if(active)renderH();updDiag();}catch(e){}
+    }
+    return;
+  }
+  if(topic.match(new RegExp('^msgr/'+APP+'/usernames/(.+)$')))return;
+  m=topic.match(new RegExp('^msgr/'+APP+'/presence/(.+)$'));
+  if(m){store.presence[m[1]]=data;saveS();try{renderCL();if(active)renderH();}catch(e){}return;}
+  m=topic.match(new RegExp('^msgr/'+APP+'/chats/([^/]+)$'));
+  if(m){
+    var cid=m[1];
+    if(!data.members||data.members.indexOf(me)<0)return;
+    var pv=store.chats[cid];
+    store.chats[cid]=Object.assign({},data,{lastTime:Math.max(data.lastTime||0,pv?pv.lastTime||0:0)});
+    saveS();
+    try{renderCL();if(active===cid){renderH();renderPB();}updDiag();}catch(e){}
+    return;
+  }
+  m=topic.match(new RegExp('^msgr/'+APP+'/chat/([^/]+)/snapshot$'));
+  if(m){handleSnap(m[1],data);return;}
+  m=topic.match(new RegExp('^msgr/'+APP+'/chat/([^/]+)/msg/(.+)$'));
+  if(m){
+    if(data.authorUid!==me)console.log('[MamaPtica] msg from',gn(data.authorUid),'in',m[1]);
+    addMsg(m[1],data,false);
+    return;
+  }
+  m=topic.match(new RegExp('^msgr/'+APP+'/typing/([^/]+)$'));
+  if(m){
+    var cid2=m[1];
+    if(data.uid===me)return;
+    var ch=store.chats[cid2];
+    if(!ch||ch.members.indexOf(me)<0)return;
+    typing[cid2]=typing[cid2]||{};
+    if(data.clear)delete typing[cid2][data.uid];else typing[cid2][data.uid]={ts:data.ts,nick:data.nick};
+    if(active===cid2)try{renderH();}catch(e){}
+    return;
+  }
+  m=topic.match(new RegExp('^msgr/'+APP+'/chat/([^/]+)$'));
+  if(m){addMsg(m[1],data,false);return;}
+  m=topic.match(new RegExp('^msgr/'+APP+'/reactions/([^/]+)/(.+)$'));
+  if(m){updRx(m[1],m[2],data.reactions||{});return;}
+}
+function handleSnap(cid,snap){
+  if(!snap||!snap.chat)return;
+  var cd=snap.chat;
+  if(!cd.members||cd.members.indexOf(me)<0)return;
+  var pv=store.chats[cid];
+  store.chats[cid]=Object.assign({},cd,{lastTime:Math.max(cd.lastTime||0,pv?pv.lastTime||0:0)});
+  var ms=snap.messages||[],added=0;
+  ms.forEach(function(msg){if(!msg||!msg.id)return;var arr=store.messages[cid]||[];if(arr.some(function(x){return x.id===msg.id;}))return;arr.push(msg);added++;});
+  if(added>0){store.messages[cid]=(store.messages[cid]||[]).sort(function(a,b){return a.ts-b.ts;});saveS();}
+  try{renderCL();if(active===cid){renderMs();renderPB();}updDiag();}catch(e){}
+}
+function addMsg(cid,msg,hist){
+  if(!msg||!msg.id)return;
+  if(!store.chats[cid]){
+    if(!ensureChat(cid,msg.ts)){
+      console.warn('[MamaPtica] addMsg: чат не найден и не создан',cid);
+      return;
+    }
+  }
+  var ch=store.chats[cid];
+  if(!ch||!ch.members||ch.members.indexOf(me)<0)return;
+  var arr=store.messages[cid]||[];
+  var ex=arr.find(function(m){return m.id===msg.id;});
+  if(ex){
+    var ch2=false;
+    if(msg.edited&&msg.editedAt>(ex.editedAt||0)){ex.text=msg.text;ex.edited=true;ex.editedAt=msg.editedAt;ch2=true;}
+    if(msg.deleted&&!ex.deleted){ex.deleted=true;ex.text='';ex.media=null;ch2=true;}
+    if(ch2){saveS();if(active===cid)try{renderMs();}catch(e){}}
+    return;
+  }
+  arr.push(msg);arr.sort(function(a,b){return a.ts-b.ts;});
+  store.messages[cid]=arr;
+  if(store.chats[cid]&&msg.ts>(store.chats[cid].lastTime||0))store.chats[cid].lastTime=msg.ts;
+  if(typing[cid])delete typing[cid][msg.authorUid];
+  saveS();
+  if(!hist&&msg.authorUid!==me){
+    if(active!==cid){unread[cid]=(unread[cid]||0)+1;saveU();}
+    if(settings.sound)playBeep();
+  }
+  if(active===cid)try{renderMs();}catch(e){}
+  try{renderCL();}catch(e){}
+}
+function updRx(cid,mid,rx){var a=store.messages[cid];if(!a)return;var m=a.find(function(x){return x.id===mid;});if(!m)return;m.reactions=rx;saveS();if(active===cid)try{renderMs();}catch(e){}}
+
+function playBeep(){
+  try{
+    var ctx=new (window.AudioContext||window.webkitAudioContext)();
+    var o=ctx.createOscillator(),g=ctx.createGain();
+    o.frequency.value=880;o.connect(g);g.connect(ctx.destination);
+    g.gain.setValueAtTime(0.15,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.2);
+    o.start();o.stop(ctx.currentTime+0.2);
+  }catch(e){}
+}
+
+function initAuth(){
+  $('sm').onclick=function(){
+    reg=!reg;
+    $('at').textContent=reg?'Регистрация':'Вход';
+    $('ab').textContent=reg?'Зарегистрироваться':'Войти';
+    $('sm').textContent=reg?'Уже есть аккаунт? Войти':'Нет аккаунта? Зарегистрироваться';
+    $('rf').style.display=reg?'block':'none';
+    $('lf').style.display=reg?'none':'block';
+    $('ae').textContent='';
+  };
+  $('ru').addEventListener('input',function(){
+    var v=this.value.trim().replace(/^@/,'');this.value=v;
+    var h=$('rh');
+    if(!v){h.textContent='4-20 символов, латиница/цифры/_';h.className='hint';return;}
+    if(!vu(v)){h.textContent='Только латиница/цифры/_, 4-20';h.className='hint err';return;}
+    if(ut(v)){h.textContent='@'+v+' занят';h.className='hint err';return;}
+    h.textContent='✓ @'+v+' свободен';h.className='hint ok';
+  });
+  $('ob').onclick=function(){
+    offlineMode=true;setBB('offline','✓ Локальный режим');this.classList.remove('show');
+    toast('Локальный режим — сообщения только на этом устройстве');
+  };
+  $('ab').onclick=async function(){
+    $('ae').textContent='';
+    try{
+      if(reg)await doReg();else await doLogin();
+    }catch(e){console.error(e);$('ae').textContent='Ошибка: '+e.message;}
+  };
+}
+async function doReg(){
+  var nick=$('rn').value.trim(),un=$('ru').value.trim(),pw=$('rp').value;
+  if(!nick||!un||!pw){$('ae').textContent='Заполните все поля';return;}
+  if(nick.length<2||nick.length>30){$('ae').textContent='Ник: 2-30 символов';return;}
+  if(!vu(un)){$('ae').textContent='Неверный @username';return;}
+  if(ut(un)){$('ae').textContent='@'+un+' занят';return;}
+  if(pw.length<4){$('ae').textContent='Пароль минимум 4 символа';return;}
+  var uidv=uid('u');
+  var ph=await hashP(pw);
+  var u={uid:uidv,nick:nick,username:un,ph:ph,bio:'',avatar:null,banner:null,color:COLORS[Math.floor(Math.random()*COLORS.length)],created:Date.now(),updated:Date.now()};
+  store.users[uidv]=u;saveS();
+  if(mqttOk&&client){try{client.publish('msgr/'+APP+'/users/'+uidv,JSON.stringify(pub(u)),{retain:true});client.publish('msgr/'+APP+'/usernames/'+un.toLowerCase(),JSON.stringify({uid:uidv,username:un}),{retain:true});console.log('[MamaPtica] published profile');}catch(e){}}
+  doIt(uidv);
+}
+async function doLogin(){
+  var ir=$('li').value.trim().replace(/^@/,''),pw=$('lp').value;
+  if(!ir||!pw){$('ae').textContent='Заполните все поля';return;}
+  var id=ir.toLowerCase();
+  var ex=Object.values(store.users).find(function(u){return u.username&&u.username.toLowerCase()===id;});
+  if(!ex){$('ae').textContent='Пользователь не найден. Зарегистрируйся.';return;}
+  if(!(await vp(ex,pw))){$('ae').textContent='Неверный пароль';return;}
+  if(ex.password&&!ex.ph){ex.ph=await hashP(pw);delete ex.password;saveS();}
+  doIt(ex.uid);
+}
+function doIt(u){
+  me=u;try{localStorage.setItem(k('current'),u);}catch(e){}
+  $('auth').style.display='none';
+  $('app').classList.add('show');
+  updMH();renderCL();updDiag();
+  if(conn){republish();pubPresence();startHB();setTimeout(pubAllSnaps,200);startRepublish();}
+}
+function updMH(){
+  var u=store.users[me];if(!u)return;
+  $('mn').textContent=u.nick;
+  $('mu').textContent=u.username?'@'+u.username:'';
+  var av=$('ma'),url=su(u.avatar);
+  if(url){av.style.background='url(\''+url+'\') center/cover';av.textContent='';}
+  else{av.style.background=sc(u.color)||cf(u.nick);av.textContent=fl(u.nick);}
+}
+
+function getMy(){return Object.values(store.chats).filter(function(c){return c&&c.members&&c.members.indexOf(me)>=0;});}
+function renderCL(){
+  var box=$('clist');if(!box)return;
+  if(sq){renderSR(box);return;}
+  var chats=getMy();
+  if(!chats.length){box.innerHTML='<div class="hb">Пока нет чатов.<br>Найди друга по <b>@username</b> 🔍</div>';return;}
+  chats.sort(function(a,b){return (b.lastTime||0)-(a.lastTime||0);});
+  box.innerHTML='';
+  chats.forEach(function(c){
+    var others=c.members.filter(function(m){return m!==me;});
+    var o=others[0];
+    var t=c.type==='group'?c.name:gn(o);
+    var un=c.type==='group'?'':gus(o);
+    var ms=(store.messages[c.id]||[]);
+    var last=ms[ms.length-1];
+    var sub='Нет сообщений';
+    if(last){var an=last.authorUid===me?'Вы':gn(last.authorUid);sub=an+': '+mpt(last);}
+    var avh2;
+    if(c.type==='group')avh2='<div class="av" style="width:44px;height:44px;background:'+cf(t)+';">'+fl(t)+'</div>';
+    else avh2=avh(o,44,true);
+    var unr=unread[c.id]||0;
+    var pin=c.pinnedMessage?'📌':'';
+    var cls='ci'+(c.id===active?' active':'')+(unr>0&&c.id!==active?' unread':'');
+    var d=document.createElement('div');
+    d.className=cls;
+    d.innerHTML=avh2+'<div class="cm"><b>'+esc(t)+(c.type==='group'?' 👥':'')+'</b>'+(un?'<span class="un">@'+esc(un)+'</span>':'')+'<small>'+esc(sub)+'</small></div>'+(pin?'<span style="font-size:14px;">'+pin+'</span>':'')+(unr>0&&c.id!==active?'<span class="ub">'+unr+'</span>':'');
+    d.onclick=function(){openC(c.id);};
+    box.appendChild(d);
+  });
+}
+function renderSR(box){
+  var q=sq.replace(/^@/,'').toLowerCase();
+  if(!q.length){box.innerHTML='';return;}
+  if(q.length<3){box.innerHTML='<div class="hb">Введи полный <b>@username</b></div>';return;}
+  var mt=Object.values(store.users).find(function(u){return u.uid!==me&&u.username&&u.username.toLowerCase()===q;});
+  if(!mt){
+    var cnt=Object.keys(store.users).length;
+    box.innerHTML='<div class="hb">Пользователь <b>@'+esc(q)+'</b> не найден.<br><br>В сети известно '+cnt+' пользователей.<br>Пусть друг откроет приложение и подождёт 10 сек.<br><br><button onclick="document.getElementById(\'rf2\').click()" style="padding:10px 20px;border-radius:8px;border:none;background:var(--ac);color:#fff;font-size:14px;">🔄 Обновить</button></div>';
+    return;
+  }
+  box.innerHTML='';
+  var d=document.createElement('div');
+  d.className='ci';
+  d.innerHTML=avh(mt.uid,44,true)+'<div class="cm"><b>'+esc(mt.nick)+'</b><span class="un">@'+esc(mt.username)+'</span><small>'+(on(mt.uid)?'онлайн':'нажми, чтобы написать')+'</small></div>';
+  d.onclick=function(){startPC(mt.uid);$('si').value='';sq='';};
+  box.appendChild(d);
+}
+function pcid(a,b){var s=[a,b].sort();return 'p_'+s[0]+'__'+s[1];}
+function startPC(ou){
+  var cid=pcid(me,ou);
+  if(!store.chats[cid]){
+    var c={id:cid,type:'user',members:[me,ou],lastTime:Date.now()};
+    store.chats[cid]=c;saveS();
+    if(mqttOk&&client){try{client.publish('msgr/'+APP+'/chats/'+cid,JSON.stringify(c),{retain:true});pubSnap(cid);}catch(e){}}
+  }
+  openC(cid);
+}
+
+function openC(id){
+  active=id;unread[id]=0;saveU();cancelRp();cancelEd();
+  if(isM())$('app').classList.add('co');
+  renderCL();renderH();renderPB();renderMs();
+  $('ia').style.display='flex';
+  setTimeout(function(){$('mi').focus();},50);
+}
+function closeCM(){$('app').classList.remove('co');active=null;renderH();renderMs();renderPB();$('ia').style.display='none';}
+function renderH(){
+  var h=$('chh'),c=store.chats[active];
+  if(!c){h.innerHTML='<div style="color:var(--dm);">Выбери чат</div>';return;}
+  var others=c.members.filter(function(m){return m!==me;});
+  var o=others[0];
+  var t=c.type==='group'?c.name:gn(o);
+  var sub='',subCls='';
+  var ty=typing[c.id]||{},now=Date.now();
+  var typers=Object.keys(ty).filter(function(u){return now-ty[u].ts<TYPING_T;}).map(function(u){return ty[u].nick;});
+  if(typers.length){sub=typers.length===1?typers[0]+' печатает...':typers.join(', ')+' печатают...';subCls='typing';}
+  else if(c.type==='group')sub=c.members.length+' участников';
+  else{sub=fls(o);if(on(o))subCls='online';}
+  var avh2;
+  if(c.type==='group')avh2='<div class="av" style="width:38px;height:38px;background:'+cf(t)+';">'+fl(t)+'</div>';
+  else avh2=avh(o,38,true);
+  var un=c.type==='user'?gus(o):'';
+  h.innerHTML='<button class="bb2" id="bbk" type="button">‹</button>'+avh2+'<div style="flex:1;min-width:0;"><b>'+esc(t)+'</b>'+(un?'<small style="color:var(--ac);">@'+esc(un)+'</small>':'')+'<small class="'+subCls+'">'+esc(sub)+'</small></div>';
+  var bbk=$('bbk');if(bbk)bbk.onclick=function(e){e.stopPropagation();closeCM();};
+  h.onclick=function(e){if(e.target.closest('.bb2'))return;if(c.type==='user'&&o)openVP(o);};
+}
+function renderPB(){
+  var bar=$('pb'),info=$('pbi'),c=store.chats[active];
+  if(!c||!c.pinnedMessage){bar.classList.remove('show');return;}
+  var m=(store.messages[active]||[]).find(function(x){return x.id===c.pinnedMessage;});
+  if(!m){bar.classList.remove('show');return;}
+  bar.classList.add('show');
+  info.innerHTML='<b>📌 '+esc(gn(m.authorUid))+'</b><small>'+esc(mpt(m))+'</small>';
+  bar.onclick=function(){var el=document.querySelector('[data-mid="'+m.id+'"]');if(el)el.scrollIntoView({behavior:'smooth',block:'center'});};
+}
+
+function renderMs(){
+  var box=$('ms');
+  if(!active){box.innerHTML='<div class="emp">Найди друга по @username 🔍</div>';return;}
+  var c=store.chats[active];
+  if(!c){box.innerHTML='<div class="emp">Чат не найден</div>';return;}
+  var prevScroll=box.scrollTop,wasBottom=box.scrollHeight-prevScroll-box.clientHeight<60;
+  var ms=store.messages[active]||[];
+  if(!ms.length){box.innerHTML='<div class="emp">Сообщений пока нет 👋</div>';return;}
+  box.innerHTML='';
+  ms.forEach(function(m){
+    var own=m.authorUid===me;
+    var d=document.createElement('div');
+    d.className='mg '+(own?'own':'other');
+    d.dataset.mid=m.id;
+    if(m.deleted)d.classList.add('del');
+    var auth=store.users[m.authorUid];
+    var avIn;
+    var au=auth?su(auth.avatar):'';
+    if(au)avIn='<img src="'+au+'" style="width:100%;height:100%;object-fit:cover;" alt="">';
+    else{var col=(auth&&sc(auth.color))||cf(gn(m.authorUid));avIn='<span style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:'+col+';color:#fff;font-weight:700;">'+fl(gn(m.authorUid))+'</span>';}
+    var rpH='';
+    if(m.replyTo)rpH='<div class="rp" data-rid="'+esc(m.replyTo.id)+'"><span class="rpa">'+esc(m.replyTo.authorNick||'?')+'</span><span class="rpt">'+esc(m.replyTo.text||'')+'</span></div>';
+    var ct='';
+    if(m.deleted)ct='<div style="color:var(--dm);">🗑 Удалено</div>';
+    else if(m.media){
+      var da=su(m.media.data);
+      if(m.media.expired||!da)ct='<div class="mmc">📎 Файл недоступен</div>';
+      else if(m.media.type==='image')ct='<img class="mmd" data-src="'+da+'" src="'+da+'" alt="">';
+      else if(m.media.type==='video')ct='<video class="mmd" controls preload="metadata" playsinline><source src="'+da+'" type="'+esc(m.media.mime||'video/mp4')+'"></video>';
+      else if(m.media.type==='voice'){var bars='';for(var i=0;i<24;i++)bars+='<span style="height:'+(4+Math.round(Math.random()*14))+'px"></span>';ct='<div class="mv"><button class="vp" data-vid="'+esc(m.id)+'" data-mime="'+esc(m.media.mime||'audio/webm')+'">▶</button><div class="vw">'+bars+'</div><div class="vd">'+fd(m.media.duration||0)+'</div></div>';}
+      else if(m.media.type==='file')ct='<a class="mf" href="'+da+'" download="'+esc(m.media.name||'file')+'" onclick="event.stopPropagation()"><div class="fi">📎</div><div class="fn"><b>'+esc(m.media.name||'Файл')+'</b><small>'+fs(m.media.size||0)+'</small></div></a>';
+    } else ct='<div>'+esc(m.text)+'</div>';
+    var rxs='';
+    if(m.reactions&&Object.keys(m.reactions).length){
+      var chips=Object.keys(m.reactions).filter(function(e){return m.reactions[e]&&m.reactions[e].length;}).map(function(e){var mine=m.reactions[e].indexOf(me)>=0?' mine':'';return '<span class="rc'+mine+'" data-e="'+esc(e)+'">'+esc(e)+' '+m.reactions[e].length+'</span>';}).join('');
+      if(chips)rxs='<div class="rx">'+chips+'</div>';
+    }
+    var al='';
+    if(!own&&c.type==='group')al='<div class="ma" style="color:'+cf(gn(m.authorUid))+'">'+esc(gn(m.authorUid))+'</div>';
+    var th='<div class="mt">'+esc(m.time)+(m.edited?' <span class="ed">(изм.)</span>':'')+'</div>';
+    d.innerHTML='<span class="ra">↩</span><div class="mga">'+avIn+'</div><div class="bub">'+al+rpH+ct+th+rxs+'</div>'+(!m.deleted?'<button class="ar">😊</button>':'');
+    d.querySelector('.mga').onclick=function(){openVP(m.authorUid);};
+    d.querySelectorAll('.rc').forEach(function(ch){ch.onclick=function(e){e.stopPropagation();toggleRx(active,m.id,ch.dataset.e);};});
+    var ar=d.querySelector('.ar');
+    if(ar)ar.onclick=function(e){e.stopPropagation();openEP(e.currentTarget,m.id);};
+    var im=d.querySelector('.mmd');
+    if(im&&im.tagName==='IMG')im.onclick=function(){$('vi').src=im.dataset.src;$('iv').classList.add('show');};
+    var rp2=d.querySelector('.rp');
+    if(rp2)rp2.onclick=function(e){e.stopPropagation();var el=document.querySelector('[data-mid="'+rp2.dataset.rid+'"]');if(el)el.scrollIntoView({behavior:'smooth',block:'center'});};
+    var vp2=d.querySelector('.vp');
+    if(vp2)vp2.onclick=function(e){e.stopPropagation();playV(m.media.data,vp2);};
+    d.oncontextmenu=function(e){e.preventDefault();openCX(e.clientX,e.clientY,m);};
+    var pt=null;
+    d.addEventListener('touchstart',function(e){pt=setTimeout(function(){var t=e.touches[0];openCX(t.clientX,t.clientY,m);pt=null;},500);},{passive:true});
+    d.addEventListener('touchend',function(){if(pt){clearTimeout(pt);pt=null;}});
+    d.addEventListener('touchmove',function(){if(pt){clearTimeout(pt);pt=null;}});
+    swp(d,m);
+    box.appendChild(d);
+  });
+  if(wasBottom)box.scrollTop=box.scrollHeight;
+  else box.scrollTop=prevScroll;
+}
+var curAud=null;
+function playV(data,btn){
+  var s=su(data);
+  if(!s){toast('Файл недоступен');return;}
+  if(curAud){try{curAud.pause();}catch(e){}curAud=null;
+    document.querySelectorAll('.vp.playing').forEach(function(b){b.classList.remove('playing');b.textContent='▶';});}
+  if(btn&&btn.classList.contains('playing')){return;}
+  var a=new Audio(s);
+  if(btn){btn.classList.add('playing');btn.textContent='⏸';}
+  a.onended=function(){if(btn){btn.classList.remove('playing');btn.textContent='▶';}curAud=null;};
+  a.onerror=function(){toast('Ошибка воспроизведения: '+(a.error&&a.error.code));if(btn){btn.classList.remove('playing');btn.textContent='▶';}curAud=null;};
+  a.play().catch(function(e){toast('Не удалось: '+e.message);if(btn){btn.classList.remove('playing');btn.textContent='▶';}});
+  curAud=a;
+}
+function swp(el,m){
+  var sx=0,sy=0,cx=0,act=false,lk=false;
+  el.addEventListener('touchstart',function(e){if(e.touches.length!==1)return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;act=true;lk=false;cx=0;},{passive:true});
+  el.addEventListener('touchmove',function(e){
+    if(!act)return;
+    var dx=e.touches[0].clientX-sx,dy=e.touches[0].clientY-sy;
+    if(!lk){if(Math.abs(dx)>Math.abs(dy)+8&&Math.abs(dx)>10)lk=true;else if(Math.abs(dy)>Math.abs(dx)+8){act=false;return;}else return;}
+    var f=dx>0?1:-1,a2=Math.min(Math.abs(dx),80);
+    cx=f*a2;el.style.transform='translateX('+cx+'px)';el.classList.add('sw');
+  },{passive:true});
+  el.addEventListener('touchend',function(){if(!act)return;el.classList.remove('sw');if(Math.abs(cx)>55){showRp(m);}el.style.transform='';act=false;lk=false;cx=0;});
+}
+
+function showRp(m){
+  reply={id:m.id,authorNick:gn(m.authorUid),text:mpt(m)};
+  $('rba').textContent=reply.authorNick;$('rbt').textContent=reply.text;
+  $('rb').classList.add('show');$('mi').focus();
+}
+function cancelRp(){reply=null;$('rb').classList.remove('show');}
+function showEd(m){editId=m.id;$('ebt').textContent=(m.text||'').slice(0,60);$('mi').value=m.text||'';$('eb').classList.add('show');$('mi').focus();}
+function cancelEd(){editId=null;$('eb').classList.remove('show');$('mi').value='';}
+
+function openCX(x,y,m){
+  var own=m.authorUid===me;
+  var c=store.chats[active];
+  var isP=c&&c.pinnedMessage===m.id;
+  var items=[];
+  items.push({l:'💬 Ответить',a:function(){showRp(m);}});
+  if(own&&!m.deleted&&!m.media)items.push({l:'✏️ Редактировать',a:function(){showEd(m);}});
+  if(!m.deleted)items.push({l:isP?'📌 Открепить':'📌 Закрепить',a:function(){tglPin(m.id);}});
+  if(own&&!m.deleted)items.push({l:'🗑 Удалить у всех',d:1,a:function(){delAll(m);}});
+  items.push({l:'🗑 Удалить у себя',d:1,a:function(){delMe(m);}});
+  var cx=$('cx');
+  cx.innerHTML=items.map(function(it,i){return '<button data-i="'+i+'" class="'+(it.d?'dg':'')+'">'+it.l+'</button>';}).join('');
+  cx.querySelectorAll('button').forEach(function(b){b.onclick=function(e){e.stopPropagation();cx.classList.remove('show');items[+b.dataset.i].a();};});
+  cx.style.left='0px';cx.style.top='0px';cx.classList.add('show');
+  var r=cx.getBoundingClientRect();
+  var l=x,t=y;
+  if(l+r.width>innerWidth-10)l=innerWidth-r.width-10;
+  if(t+r.height>innerHeight-10)t=innerHeight-r.height-10;
+  cx.style.left=l+'px';cx.style.top=t+'px';
+}
+document.addEventListener('click',function(){$('cx').classList.remove('show');});
+function tglPin(mid){var c=store.chats[active];if(!c)return;c.pinnedMessage=c.pinnedMessage===mid?null:mid;saveS();if(mqttOk&&client){try{client.publish('msgr/'+APP+'/chats/'+active,JSON.stringify(c),{retain:true});}catch(e){}}renderPB();renderCL();}
+function delMe(m){if(!confirm('Удалить у себя?'))return;m.deletedFor=m.deletedFor||[];if(m.deletedFor.indexOf(me)<0)m.deletedFor.push(me);saveS();renderMs();renderCL();}
+function delAll(m){if(!confirm('Удалить у всех?'))return;m.deleted=true;m.text='';m.media=null;m.replyTo=null;saveS();renderMs();renderCL();if(mqttOk&&client){try{client.publish('msgr/'+APP+'/chat/'+active+'/msg/'+m.id,JSON.stringify(m));}catch(e){}}}
+
+var epEl=null;
+function openEP(anchor,mid){
+  closeEP();epEl=document.createElement('div');epEl.className='ep';
+  RXS.forEach(function(e){var b=document.createElement('button');b.textContent=e;b.onclick=function(ev){ev.stopPropagation();toggleRx(active,mid,e);closeEP();};epEl.appendChild(b);});
+  document.body.appendChild(epEl);
+  var r=anchor.getBoundingClientRect(),pr=epEl.getBoundingClientRect();
+  var l=r.left+r.width/2-pr.width/2,t=r.top-pr.height-8;
+  if(l<10)l=10;if(l+pr.width>innerWidth-10)l=innerWidth-pr.width-10;if(t<10)t=r.bottom+8;
+  epEl.style.left=l+'px';epEl.style.top=t+'px';
+  setTimeout(function(){document.addEventListener('click',outEP);},10);
+}
+function closeEP(){if(epEl&&epEl.parentNode)epEl.parentNode.removeChild(epEl);epEl=null;document.removeEventListener('click',outEP);}
+function outEP(e){if(epEl&&!epEl.contains(e.target))closeEP();}
+function toggleRx(cid,mid,e){
+  var a=store.messages[cid];if(!a)return;var m=a.find(function(x){return x.id===mid;});if(!m)return;
+  m.reactions=m.reactions||{};
+  var u=m.reactions[e]||[];
+  var i=u.indexOf(me);
+  if(i>=0)u.splice(i,1);else u.push(me);
+  if(!u.length)delete m.reactions[e];else m.reactions[e]=u;
+  saveS();renderMs();
+  if(mqttOk&&client){try{client.publish('msgr/'+APP+'/reactions/'+cid+'/'+mid,JSON.stringify({reactions:m.reactions,by:me,ts:Date.now()}));}catch(e){}}
+}
+
+var lastTyping=0;
+function typIn(){
+  if(!active||!mqttOk||!settings.typing||!client)return;
+  var n=Date.now();if(n-lastTyping<2000)return;lastTyping=n;
+  var u=store.users[me];
+  try{client.publish('msgr/'+APP+'/typing/'+active,JSON.stringify({uid:me,nick:u?u.nick:'?',ts:n}));}catch(e){}
+}
+function send(){
+  var inp=$('mi'),t=inp.value.trim();
+  if(editId){
+    if(!t){cancelEd();return;}
+    var a=store.messages[active]||[];
+    var m=a.find(function(x){return x.id===editId;});
+    if(m){m.text=t;m.edited=true;m.editedAt=Date.now();saveS();renderMs();
+      if(mqttOk&&client){try{client.publish('msgr/'+APP+'/chat/'+active+'/msg/'+m.id,JSON.stringify(m),{retain:true});}catch(e){}}
+    }
+    cancelEd();inp.value='';return;
+  }
+  if(!t||!active)return;
+  var msg={id:uid('m'),chatId:active,authorUid:me,text:t,time:tn(),ts:Date.now(),reactions:{},replyTo:reply||null};
+  sendFull(msg);
+  if(mqttOk&&client){try{client.publish('msgr/'+APP+'/typing/'+active,JSON.stringify({uid:me,clear:true}));}catch(e){}}
+  inp.value='';cancelRp();lastTyping=0;
+}
+function sendFull(msg){
+  addMsg(msg.chatId,msg,true);
+  if(mqttOk&&client){
+    try{
+      client.publish('msgr/'+APP+'/chat/'+msg.chatId+'/msg/'+msg.id,JSON.stringify(msg),{retain:true});
+      console.log('[MamaPtica] sent to',msg.chatId);
+      setTimeout(function(){pubSnap(msg.chatId);},500);
+    }catch(e){toast('Ошибка отправки');}
+  } else {
+    toast('Сохранено локально (нет сети)');
+  }
+}
+
+function initAttach(){
+  var am=$('am');
+  $('atb').onclick=function(e){e.stopPropagation();am.classList.toggle('show');};
+  document.addEventListener('click',function(e){if(!am.contains(e.target)&&e.target.id!=='atb')am.classList.remove('show');});
+  $('pi2').onclick=function(){am.classList.remove('show');$('mfi').accept='image/*';$('mfi').click();};
+  $('pv').onclick=function(){am.classList.remove('show');$('mfi').accept='video/*';$('mfi').click();};
+  $('pf').onclick=function(){am.classList.remove('show');$('ffi').click();};
+  $('sh').onclick=function(){am.classList.remove('show');if(!active||!mqttOk){toast('Нет соединения');return;}pubSnap(active);toast('🔄 Синхронизировано',true);};
+  $('mfi').addEventListener('change',function(e){
+    var f=e.target.files[0];this.value='';if(!f||!active)return;
+    if(!mqttOk){toast('Нет соединения');return;}
+    var isImg=f.type.startsWith('image/'),isVid=f.type.startsWith('video/');
+    if(isImg){
+      toast('Обработка...',true);
+      compSmart(f,function(d){if(!d||d.length>MAX_IMG){toast('Слишком большая');return;}sendMed(d,'image',f.type,null);});
+    } else if(isVid){
+      if(f.size>1024*1024){toast('Видео макс 1 МБ');return;}
+      toast('Загрузка...',true);
+      var r=new FileReader();r.onload=function(){var d=r.result;if(d.length>MAX_VID){toast('Слишком большое');return;}sendMed(d,'video',f.type,null);};r.readAsDataURL(f);
+    }
+  });
+  $('ffi').addEventListener('change',function(e){
+    var f=e.target.files[0];this.value='';if(!f||!active)return;
+    if(!mqttOk){toast('Нет соединения');return;}
+    if(f.size>1024*1024){toast('Файл макс 1 МБ');return;}
+    toast('Загрузка...',true);
+    var r=new FileReader();r.onload=function(){var d=r.result;if(d.length>MAX_FILE){toast('Слишком большой');return;}sendMed(d,'file',f.type||'application/octet-stream',{name:f.name,size:f.size});};r.readAsDataURL(f);
+  });
+}
+function comp(file,mw,mh,q,cb){
+  var r=new FileReader();
+  r.onload=function(e){
+    var img=new Image();
+    img.onload=function(){
+      var w=img.width,h=img.height,ratio=Math.min(mw/w,mh/h,1);
+      w=Math.round(w*ratio);h=Math.round(h*ratio);
+      var c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      cb(c.toDataURL('image/jpeg',q));
+    };
+    img.onerror=function(){cb(null);};img.src=e.target.result;
+  };
+  r.readAsDataURL(file);
+}
+function compSmart(file,cb){
+  comp(file,1200,1200,0.75,function(d1){if(!d1){cb(null);return;}if(d1.length<=MAX_IMG){cb(d1);return;}
+    comp(file,900,900,0.65,function(d2){if(!d2){cb(d1);return;}if(d2.length<=MAX_IMG){cb(d2);return;}
+      comp(file,700,700,0.55,function(d3){cb(d3&&d3.length<d2.length?d3:d2);});
+    });
+  });
+}
+function sendMed(data,type,mime,extra){
+  var msg={id:uid('m'),chatId:active,authorUid:me,text:'',media:Object.assign({type:type,mime:mime,data:data},extra||{}),time:tn(),ts:Date.now(),reactions:{},replyTo:reply||null};
+  sendFull(msg);cancelRp();toast('✓ Отправлено',true);
+}
+
+function pickMime(){
+  var prefs=['audio/mp4;codecs=mp4a.40.2','audio/mp4','audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus'];
+  for(var i=0;i<prefs.length;i++){
+    try{if(typeof MediaRecorder!=='undefined'&&MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(prefs[i]))return prefs[i];}catch(e){}
+  }
+  return '';
+}
+function initVoice(){
+  console.log('[MamaPtica] MediaRecorder:',typeof MediaRecorder);
+  $('mib').onclick=async function(){
+    if(!active){toast('Открой чат');return;}
+    if(!mqttOk){toast('Нет соединения');return;}
+    if(typeof MediaRecorder==='undefined'){toast('Запись не поддерживается этим браузером');return;}
+    if(mr&&mr.state==='recording'){stopRec();return;}
+    try{
+      var stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      var mime=pickMime();
+      console.log('[MamaPtica] recording mime:',mime||'default');
+      var opts=mime?{mimeType:mime}:undefined;
+      try{mr=new MediaRecorder(stream,opts);}
+      catch(e){mr=new MediaRecorder(stream);}
+      chunks=[];
+      mr.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data);};
+      mr.onstop=function(){
+        var recMime=mr.mimeType||mime||'audio/webm';
+        var blob=new Blob(chunks,{type:recMime});
+        var dur=(Date.now()-recStart)/1000;
+        stream.getTracks().forEach(function(t){t.stop();});
+        if(dur<0.5||blob.size<500){toast('Слишком коротко');rstRec();return;}
+        var r=new FileReader();
+        r.onload=function(){
+          var d=r.result;
+          if(d.length>MAX_VOICE){toast('Слишком длинное ('+(d.length/1024|0)+'КБ)');rstRec();return;}
+          var t=recMime.indexOf('mp4')>=0?'audio/mp4':'audio/webm';
+          sendMed(d,'voice',t,{duration:Math.round(dur)});
+          rstRec();
+        };
+        r.readAsDataURL(blob);
+      };
+      mr.start();recStart=Date.now();
+      $('mib').classList.add('rec');$('mib').textContent='⏹';
+      $('rt').classList.add('show');$('rt').textContent='🔴 0:00';
+      recInt=setInterval(function(){var d=Math.floor((Date.now()-recStart)/1000);$('rt').textContent='🔴 '+fd(d);if(d>=60)stopRec();},200);
+    }catch(e){console.error(e);toast('Нет доступа к микрофону: '+e.message);}
+  };
+}
+function stopRec(){if(mr&&mr.state==='recording')mr.stop();if(recInt){clearInterval(recInt);recInt=null;}}
+function rstRec(){$('mib').classList.remove('rec');$('mib').textContent='🎤';$('rt').classList.remove('show');mr=null;chunks=[];}
+
+var draft={avatar:null,banner:null,color:null};
+function openEP2(){
+  var u=store.users[me];if(!u)return;
+  draft.avatar=u.avatar||null;draft.banner=u.banner||null;draft.color=sc(u.color)||cf(u.nick);
+  $('en').value=u.nick;$('eu').value=u.username||'';$('eb2').value=u.bio||'';$('eh').textContent='';
+  renderPrev();renderCP();$('epm').classList.add('show');
+}
+function renderPrev(){
+  var bu=su(draft.banner);
+  if(bu){$('ebn').style.background='url(\''+bu+'\') center/cover';$('clb').style.display='block';}
+  else{$('ebn').style.background='linear-gradient(135deg, var(--own), var(--ac))';$('clb').style.display='none';}
+  var u=store.users[me];
+  var au=su(draft.avatar);
+  if(au){$('eav').style.background='url(\''+au+'\') center/cover';$('eav').textContent='';$('cla').style.display='block';}
+  else{$('eav').style.background=sc(draft.color)||cf(u?u.nick:'?');$('eav').textContent=fl(u?u.nick:'?');$('cla').style.display='none';}
+}
+function renderCP(){
+  var cp=$('cp');cp.innerHTML='';
+  COLORS.forEach(function(c){var d=document.createElement('div');d.className='cd'+(c===draft.color?' sel':'');d.style.background=c;d.onclick=function(){draft.color=c;renderPrev();renderCP();};cp.appendChild(d);});
+}
+function initProfile(){
+  $('mb').onclick=openEP2;
+  $('cep').onclick=function(){$('epm').classList.remove('show');};
+  $('eav').onclick=function(){$('afi').click();};
+  $('ebn').onclick=function(){$('bfi').click();};
+  $('afi').addEventListener('change',function(e){var f=e.target.files[0];this.value='';if(!f)return;comp(f,200,200,0.8,function(d){if(d){draft.avatar=d;renderPrev();toast('Аватарка выбрана ✓',true);}});});
+  $('bfi').addEventListener('change',function(e){var f=e.target.files[0];this.value='';if(!f)return;comp(f,800,300,0.75,function(d){if(d){draft.banner=d;renderPrev();toast('Баннер выбран ✓',true);}});});
+  $('cla').onclick=function(){draft.avatar=null;renderPrev();};
+  $('clb').onclick=function(){draft.banner=null;renderPrev();};
+  $('eu').addEventListener('input',function(){
+    var v=this.value.trim().replace(/^@/,'');this.value=v;
+    var u=store.users[me],h=$('eh');
+    if(!v){h.textContent='Введи @username';h.className='hint err';return;}
+    if(!vu(v)){h.textContent='Латиница/цифры/_, 4-20';h.className='hint err';return;}
+    if(u.username&&v.toLowerCase()===u.username.toLowerCase()){h.textContent='Текущий';h.className='hint';return;}
+    if(ut(v,me)){h.textContent='@'+v+' занят';h.className='hint err';return;}
+    h.textContent='✓ свободен';h.className='hint ok';
+  });
+  $('sp').onclick=function(){
+    try{
+      var u=store.users[me];if(!u){toast('Ошибка');return;}
+      var nn=$('en').value.trim(),nu=$('eu').value.trim();
+      if(!nn){toast('Введи ник');return;}
+      if(nn.length<2||nn.length>30){toast('Ник: 2-30');return;}
+      if(!vu(nu)){toast('Неверный @username');return;}
+      if(ut(nu,me)){toast('@'+nu+' занят');return;}
+      var ou=u.username?u.username.toLowerCase():null;
+      u.nick=nn;u.username=nu;u.bio=$('eb2').value.trim().slice(0,200);
+      u.avatar=draft.avatar;u.banner=draft.banner;u.color=sc(draft.color)||u.color;
+      u.updated=Date.now();store.users[me]=u;saveS();
+      updMH();renderCL();renderMs();if(active)renderH();
+      if(mqttOk&&client){try{client.publish('msgr/'+APP+'/users/'+me,JSON.stringify(pub(u)),{retain:true});client.publish('msgr/'+APP+'/usernames/'+nu.toLowerCase(),JSON.stringify({uid:me,username:nu}),{retain:true});if(ou&&ou!==nu.toLowerCase())client.publish('msgr/'+APP+'/usernames/'+ou,'',{retain:true});}catch(e){}}
+      $('epm').classList.remove('show');
+      toast('Профиль сохранён ✓',true);
+    }catch(e){console.error(e);toast('Ошибка: '+e.message);}
+  };
+}
+function openVP(u){
+  var user=store.users[u];if(!user)return;
+  var bu=su(user.banner);
+  $('vb').style.background=bu?'url(\''+bu+'\') center/cover':'linear-gradient(135deg, var(--own), var(--ac))';
+  var au=su(user.avatar);
+  if(au){$('va').style.background='url(\''+au+'\') center/cover';$('va').textContent='';}
+  else{$('va').style.background=sc(user.color)||cf(user.nick);$('va').textContent=fl(user.nick);}
+  $('vn').textContent=user.nick;
+  $('vu').textContent=user.username?'@'+user.username:'';
+  $('vs').textContent=fls(u);
+  $('vs').className='pst'+(on(u)?' online':'');
+  $('vb2').textContent=user.bio||'Нет описания';
+  $('vpm').classList.add('show');
+}
+
+function initGroup(){
+  $('ng').onclick=function(){
+    var box=$('gp');$('gn').value='';box.innerHTML='';
+    var users=Object.values(store.users).filter(function(u){return u.uid!==me;});
+    if(!users.length)box.innerHTML='<div style="color:var(--dm);font-size:13px;padding:6px;">Нет других пользователей</div>';
+    else users.forEach(function(u){
+      var l=document.createElement('label');
+      l.innerHTML='<input type="checkbox" value="'+esc(u.uid)+'">'+avh(u.uid,26)+'<div style="flex:1;"><div>'+esc(u.nick)+'</div>'+(u.username?'<div style="color:var(--ac);font-size:11px;">@'+esc(u.username)+'</div>':'')+'</div>';
+      box.appendChild(l);
+    });
+    $('gm').classList.add('show');
+  };
+  $('cg').onclick=function(){$('gm').classList.remove('show');};
+  $('crg').onclick=function(){
+    var name=$('gn').value.trim();
+    if(!name){alert('Введи название');return;}
+    var checked=Array.from(document.querySelectorAll('#gp input:checked')).map(function(i){return i.value;});
+    if(!checked.length){alert('Выбери участников');return;}
+    var cid=uid('g');
+    var c={id:cid,type:'group',name:name,members:[me].concat(checked),lastTime:Date.now()};
+    store.chats[cid]=c;saveS();
+    if(mqttOk&&client){try{client.publish('msgr/'+APP+'/chats/'+cid,JSON.stringify(c),{retain:true});pubSnap(cid);}catch(e){}}
+    $('gm').classList.remove('show');
+    openC(cid);
+  };
+}
+
+function updSet(){
+  $('ss').checked=settings.sound;$('sn').checked=settings.notif;$('stp').checked=settings.typing;
+  $('stg').textContent=settings.sound?'🔔':'🔕';
+  $('stg').classList.toggle('m',!settings.sound);
+}
+function initSettings(){
+  $('sg').onclick=function(){updSet();updDiag();$('sm2').classList.add('show');};
+  $('cs').onclick=function(){$('sm2').classList.remove('show');};
+  $('ss').onchange=function(){settings.sound=this.checked;saveSet();updSet();};
+  $('sn').onchange=function(){settings.notif=this.checked;saveSet();};
+  $('stp').onchange=function(){settings.typing=this.checked;saveSet();};
+  $('stg').onclick=function(e){e.stopPropagation();settings.sound=!settings.sound;saveSet();updSet();toast(settings.sound?'🔔 Звук вкл':'🔕 Звук выкл',true);};
+  $('ocp').onclick=function(){$('co').value='';$('cn').value='';$('cn2').value='';$('ch2').textContent='';$('sm2').classList.remove('show');$('cpm').classList.add('show');};
+  $('cc').onclick=function(){$('cpm').classList.remove('show');$('sm2').classList.add('show');};
+  $('csa').onclick=async function(){
+    var h=$('ch2');h.className='hint err';
+    var u=store.users[me];if(!u){h.textContent='Пользователь не найден';return;}
+    var o=$('co').value,n=$('cn').value,n2=$('cn2').value;
+    if(!o){h.textContent='Введи текущий пароль';return;}
+    if(!n){h.textContent='Введи новый пароль';return;}
+    if(n.length<4){h.textContent='Новый: минимум 4 символа';return;}
+    if(n===o){h.textContent='Совпадает со старым';return;}
+    if(n!==n2){h.textContent='Пароли не совпадают';return;}
+    if(!(await vp(u,o))){h.textContent='Неверный текущий пароль';return;}
+    try{
+      u.ph=await hashP(n);delete u.password;u.updated=Date.now();store.users[me]=u;saveS();
+      if(mqttOk&&client){try{client.publish('msgr/'+APP+'/users/'+me,JSON.stringify(pub(u)),{retain:true});}catch(e){}}
+      h.textContent='';h.className='hint';
+      $('cpm').classList.remove('show');
+      toast('🔑 Пароль изменён ✓',true);
+    }catch(e){h.textContent='Ошибка: '+e.message;}
+  };
+}
+
+function initUI(){
+  $('si').addEventListener('input',function(){sq=this.value.trim();renderCL();});
+  $('rf2').onclick=forceRefresh;
+  $('lob').onclick=function(e){e.stopPropagation();if(mqttOk&&client&&me){try{client.publish('msgr/'+APP+'/presence/'+me,JSON.stringify({uid:me,online:false,lastSeen:Date.now()}),{retain:true});}catch(e){}}try{localStorage.removeItem(k('current'));}catch(e){}location.reload();};
+  $('rbc').onclick=cancelRp;
+  $('ebc').onclick=cancelEd;
+  $('ub').onclick=function(e){e.stopPropagation();var c=store.chats[active];if(!c)return;c.pinnedMessage=null;saveS();if(mqttOk&&client){try{client.publish('msgr/'+APP+'/chats/'+active,JSON.stringify(c),{retain:true});}catch(e){}}renderPB();renderCL();};
+  $('sb2').onclick=send;
+  $('mi').addEventListener('keydown',function(e){if(e.key==='Enter')send();});
+  $('mi').addEventListener('input',typIn);
+  $('cvv').onclick=function(){$('iv').classList.remove('show');};
+  $('cvp').onclick=function(){$('vpm').classList.remove('show');};
+  setInterval(function(){if(active)try{renderH();}catch(e){}},2000);
+  setInterval(updDiag,3000);
+}
+
+async function main(){
+  try{var raw=localStorage.getItem('msngr_mamaptica_messenger_v1_store');if(raw&&!localStorage.getItem(k('store')))localStorage.setItem(k('store'),raw);
+    var rc=localStorage.getItem('msngr_mamaptica_messenger_v1_current');if(rc&&!localStorage.getItem(k('current')))localStorage.setItem(k('current'),rc);
+  }catch(e){}
+  loadS();loadU();loadSet();
+  try{Object.values(store.users).forEach(async function(u){if(u.password&&!u.ph){u.ph=await hashP(u.password);delete u.password;saveS();}});}catch(e){}
+  initAuth();initUI();initSettings();initGroup();initProfile();initAttach();initVoice();updSet();
+  var sv=localStorage.getItem(k('current'));
+  if(sv&&store.users[sv])doIt(sv);
+  if(!me)$('auth').style.display='flex';
+  mqttStart();
+}
+main();
+})();
+</script>
+</body>
+</html>
